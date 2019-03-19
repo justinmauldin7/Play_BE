@@ -1,8 +1,6 @@
 exports.seed = function(knex, Promise) {
-  // We must return a Promise from within our seed function
-  // Without this initial `return` statement, the seed execution
-  // will end before the asynchronous tasks have completed
   return knex('playlists').del()
+    .then(() => knex('favorites').del())
     // Now that we have a clean slate, we can re-insert our playlists data
     .then(() => {
       return Promise.all([
@@ -10,6 +8,9 @@ exports.seed = function(knex, Promise) {
         knex('playlists').insert({
           playlist_name: 'Best Classic Rock Songs'
         }, 'id')
+        .then(knex('favorites').insert({
+          name: 'Bohemian Rhapsody', artist_name: 'Queen', genre: 'Rock', rating: 88
+        }, 'id'))
         .then(() => console.log('Seeding complete!'))
         .catch(error => console.log(`Error seeding data: ${error}`))
       ]) // end return Promise.all
