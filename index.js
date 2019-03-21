@@ -60,24 +60,26 @@ app.post('/api/v1/favorites', (request, response) => {
     });
 });
 
-
 app.put('/api/v1/favorites/:id', (request, response) => {
   database('favorites').where('id', request.params.id).update({
     name: request.body.name || null,
     artist_name: request.body.artist_name || null,
     genre: request.body.genre || null,
     rating: request.body.rating || null
-  }).returning('*').then(function(data) {
-    response.send(data);
+  })
+  .then(favorite => {
+    response.status(200).json({ id: request.params.id })
+  })
+  .catch(error => {
+    response.status(500).json({ error });
   });
 });
 
 app.delete('/api/v1/favorites/:id', function (request, response) {
-  database('favorites').where({id: request.params.id}).del().then(function() {
-    response.json({sucess: true});
-  });
+  database.raw("SELECT favorites.*, playlists_favorites.* WHERE favorites.id = " + request.params.id + ", playlists_favorites.favorite_id = " + request.params.id + "").del().then(function() {
+    response.status(204)
+  })
 });
-
 
 app.get('/api/v1/playlists', (request, response) => {
   database('playlists').select()
@@ -91,11 +93,6 @@ app.get('/api/v1/playlists', (request, response) => {
 
 // I think the below statement will work but I'm not sure how to format it in the request
 //select playlists.*, favorites.* from playlists, favorites;
-
-
-
-
-
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
