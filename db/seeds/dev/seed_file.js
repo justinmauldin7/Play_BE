@@ -19,7 +19,7 @@ exports.seed = function(knex, Promise) {
         } , 'id')
         .then(favorite => {
           return knex('playlists_favorites').insert([
-            {favorite_id: favorite[0], playlist_id: playlist[0]}
+            {favorite_id: favorite[0]}
           ])
         })
         // .then(playlist => {
