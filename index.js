@@ -72,6 +72,11 @@ app.put('/api/v1/favorites/:id', (request, response) => {
   });
 });
 
+app.delete('/api/v1/favorites/:id', function (request, response) {
+  database('favorites').where({id: request.params.id}).del().then(function() {
+    response.json({sucess: true});
+  });
+});
 
 
 

@@ -1,7 +1,7 @@
 exports.seed = function(knex, Promise) {
-  return knex('playlists_favorites')
-    .then(() => knex('playlists'))
-    .then(() => knex('favorites'))
+  return knex('playlists_favorites').del()
+    .then(() => knex('playlists').del())
+    .then(() => knex('favorites').del())
     .then(() => {
       return Promise.all([
         knex('favorites').insert([
