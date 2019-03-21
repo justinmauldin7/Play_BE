@@ -61,6 +61,18 @@ app.post('/api/v1/favorites', (request, response) => {
 });
 
 
+app.put('/api/v1/favorites/:id', (request, response) => {
+  database('favorites').where('id', request.params.id).update({
+    name: request.body.name || null,
+    artist_name: request.body.artist_name || null,
+    genre: request.body.genre || null,
+    rating: request.body.rating || null
+  }).returning('*').then(function(data) {
+    response.send(data);
+  });
+});
+
+
 
 
 app.listen(app.get('port'), () => {
