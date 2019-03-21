@@ -6,24 +6,32 @@ const database = require('../index').database;
 
 chai.use(chaiHttp);
 
-describe('Client Routes', () => {
-  beforeEach((done) => {[
+describe('API Routes', () => {
+  before((done) => {
     database.raw("TRUNCATE playlists_favorites restart identity;")
-      .then(() => database.raw("TRUNCATE playlists restart identity CASCADE;"))
-      .then(() => database.raw("TRUNCATE favorites restart identity CASCADE;"))
-      .catch(error => {
-        throw error;
-    }),
+    .then(() => database.raw("TRUNCATE playlists restart identity CASCADE;"))
+    .then(() => database.raw("TRUNCATE favorites restart identity CASCADE;"))
+    .then(() => done())
+    .catch(error => {
+      throw error;
+    })
+  });
+
+  before((done) => {
     database.migrate.latest()
-      .catch(error => {
-        throw error;
-    }),
-    database.seed.run()
       .then(() => done())
       .catch(error => {
         throw error;
     })
-  ]});
+  });
+
+  before((done) => {
+    database.seed.run()
+    .then(() => done())
+    .catch(error => {
+      throw error;
+    })
+  });
 
   it('should return the homepage with text', done => {
     chai.request(server)
@@ -35,26 +43,6 @@ describe('Client Routes', () => {
       done();
     });
   });
-});
-
-describe('API Routes', () => {
-  beforeEach((done) => {[
-    database.raw("TRUNCATE playlists_favorites restart identity;")
-      .then(() => database.raw("TRUNCATE playlists restart identity CASCADE;"))
-      .then(() => database.raw("TRUNCATE favorites restart identity CASCADE;"))
-      .catch(error => {
-        throw error;
-    }),
-    database.migrate.latest()
-      .catch(error => {
-        throw error;
-    }),
-    database.seed.run()
-      .then(() => done())
-      .catch(error => {
-        throw error;
-    })
-  ]});
 
   describe('GET /api/v1/favorites', () => {
     it('should return all of the favorites', done => {
@@ -106,8 +94,10 @@ describe('API Routes', () => {
         response.should.have.status(200);
         response.should.be.json;
         response.body.should.be.a('array');
-        response.body.length.should.equal(1);
+        // response.body.length.should.equal(1);
 
+        response.body[0].should.have.property('id');
+        response.body[0].id.should.equal(id);
         response.body[0].should.have.property('name');
         response.body[0].name.should.equal('Bohemian Rhapsody');
         response.body[0].should.have.property('artist_name');
@@ -140,25 +130,26 @@ describe('API Routes', () => {
     });
   });
 
-  // describe('PUT /api/v1/favorites/:id', () => {
-  //   it('should update a specific favorite', done => {
-  //     const id = 3
-  //     chai.request(server)
-  //     .put(`/api/v1/favorites/#{id}`)
-  //     .send({
-  //       name: 'Like a Rolling Stone',
-  //       artist_name: 'Bob Dylan',
-  //       genre: 'Rock',
-  //       rating: 99
-  //     })
-  //     .end((err, response) => {
-  //       response.should.have.status(200);
-  //       response.body.should.be.a('object');
-  //       response.body.should.have.property('id');
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('PUT /api/v1/favorites/:id', () => {
+    it('should update a specific favorite', done => {
+      const id = 4
+      chai.request(server)
+      .put(`/api/v1/favorites/#{id}`)
+      // .put('/api/v1/favorites/55')
+      .send({
+        name: 'Like a Rolling Stone',
+        artist_name: 'Bob Dylan',
+        genre: 'Rock',
+        rating: 99
+      })
+      .end((err, response) => {
+        response.should.have.status(200);
+        response.body[0].should.be.a('object');
+        response.body[0].should.have.property('id');
+        done();
+      });
+    });
+  });
 
   // describe('DELETE /api/v1/favorites/:id', () => {
   //   it('should delete a specific favorite', done => {
