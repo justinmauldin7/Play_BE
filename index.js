@@ -89,6 +89,11 @@ app.get('/api/v1/playlists', (request, response) => {
   });
 });
 
+// I think the below statement will work but I'm not sure how to format it in the request
+//select playlists.*, favorites.* from playlists, favorites;
+
+
+
 
 
 
