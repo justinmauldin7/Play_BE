@@ -43,7 +43,6 @@ app.get('/api/v1/favorites/:id', (request, response) => {
 
 app.post('/api/v1/favorites', (request, response) => {
   const favorite = request.body;
-
   // for (let requiredParameter of ['name', 'artist_name', 'genre', 'rating' ]) {
   //   if (!favorite[requiredParameter]) {
   //     return response
@@ -76,9 +75,14 @@ app.put('/api/v1/favorites/:id', (request, response) => {
 });
 
 app.delete('/api/v1/favorites/:id', function (request, response) {
-  database.raw("SELECT favorites.*, playlists_favorites.* WHERE favorites.id = " + request.params.id + ", playlists_favorites.favorite_id = " + request.params.id + "").del().then(function() {
-    response.status(204)
+  database('favorites').where({ id: request.params.id })
+  .del()
+  .then(function() {
+    response.status(204).send();
   })
+  .catch(error => {
+    response.status(500);
+  });
 });
 
 app.get('/api/v1/playlists', (request, response) => {
