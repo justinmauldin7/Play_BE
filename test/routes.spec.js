@@ -132,10 +132,8 @@ describe('API Routes', () => {
 
   describe('PUT /api/v1/favorites/:id', () => {
     it('should update a specific favorite', done => {
-      const id = 4
       chai.request(server)
-      .put(`/api/v1/favorites/#{id}`)
-      // .put('/api/v1/favorites/55')
+      .put('/api/v1/favorites/4')
       .send({
         name: 'Like a Rolling Stone',
         artist_name: 'Bob Dylan',
@@ -144,27 +142,26 @@ describe('API Routes', () => {
       })
       .end((err, response) => {
         response.should.have.status(200);
-        response.body[0].should.be.a('object');
-        response.body[0].should.have.property('id');
+        response.body.should.be.a('object');
+        response.body.should.have.property('id');
         done();
       });
     });
   });
 
-  // describe('DELETE /api/v1/favorites/:id', () => {
-  //   it('should delete a specific favorite', done => {
-  //     const id = 1
-  //     chai.request(server)
-  //     .delete(`/api/v1/favorites/#{id}`)
-  //     .end((err, response) => {
-  //       response.should.have.status(200);
-  //       response.body.should.be.a('object');
-  //       response.body.should.have.property('message').eql('Favorite successfully deleted!');
-  //       response.body.result.should.have.property('ok').eql(1);
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('DELETE /api/v1/favorites/:id', () => {
+    it('should delete a specific favorite', done => {
+      chai.request(server)
+      .put('/api/v1/favorites/4')
+      .end((err, response) => {
+        response.should.have.status(204);
+        response.body.should.be.a('object');
+        response.body.should.have.property('message').eql('Favorite successfully deleted!');
+        response.body.result.should.have.property('ok').eql(1);
+        done();
+      });
+    });
+  });
 
   describe('GET /api/v1/playlists', () => {
     it('should return all of the playlists', done => {
