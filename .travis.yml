@@ -1,0 +1,13 @@
+language: node_js
+
+node_js:
+ - 6.4.1
+
+# deploy:
+#   provider: heroku
+#   api_key:
+#     secure: "YOUR ENCRYPTED API KEY"
+#
+#   run:
+#     - "knex migrate:latest"
+#     - "knex seed:run"
