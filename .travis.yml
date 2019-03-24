@@ -1,0 +1,27 @@
+language: node_js
+
+node_js:
+  - "stable"
+
+cache:
+  directories:
+    - "node_modules"
+
+service:
+  - "postgresql"
+
+before_script:
+  - psql -c 'create database play;' -U postgres
+  - knex migrate:latest
+  - knex seed:run
+
+script: mocha --exit
+
+# deploy:
+#   provider: heroku
+#   api_key:
+#     secure: "YOUR ENCRYPTED API KEY"
+#
+#   run:
+#     - "knex migrate:latest"
+#     - "knex seed:run"

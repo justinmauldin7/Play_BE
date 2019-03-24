@@ -149,9 +149,9 @@ describe('API Routes', () => {
   });
 
   describe('DELETE /api/v1/favorites/:id', () => {
-    xit('should delete a specific favorite', done => {
+    it('should delete a specific favorite', done => {
       chai.request(server)
-      .put('/api/v1/favorites/4')
+      .delete('/api/v1/favorites/4')
       .end((err, response) => {
         response.should.have.status(204);
         // We need error handling in the DELETE.  Returning 200 in the test,
