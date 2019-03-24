@@ -1,7 +1,15 @@
 language: node_js
-
 node_js:
- - 6.4.1
+  - "stable"
+cache:
+  directories:
+    - "node_modules"
+
+
+# language: node_js
+#
+# node_js:
+#  - 6.4.1
 
 # deploy:
 #   provider: heroku
