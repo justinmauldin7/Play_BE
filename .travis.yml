@@ -15,7 +15,7 @@ before_script:
   - knex migrate:latest
   - knex seed:run
 
-script: npm test
+script: mocha --exit
 
 # deploy:
 #   provider: heroku
