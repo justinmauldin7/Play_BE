@@ -1,16 +1,21 @@
 language: node_js
-node_js:
-  - "stable"
-cache:
-  directories:
-    - "node_modules"
-before_script:
-- psql -c 'create database play;' -U postgres
+  node_js:
+    - "stable"
 
-# language: node_js
-#
-# node_js:
-#  - 6.4.1
+  cache:
+    directories:
+      - "node_modules"
+
+  service:
+    - "postgresql"
+
+  before_script:
+    - psql -c 'create database play;' -U postgres
+    - npm install
+    - knex migrate:latest
+    - knex seed:run
+
+  script: npm test
 
 # deploy:
 #   provider: heroku
