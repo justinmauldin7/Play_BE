@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
+const favorites = require('./lib/routes/api/v1/favorites')
 
 app.use(cors())
 app.use(bodyParser.json());
@@ -17,31 +18,7 @@ app.get('/', (request, response) => {
   response.send('Hello, Players');
 });
 
-app.get('/api/v1/favorites', (request, response) => {
-  database('favorites').select()
-  .then((favorites) => {
-    response.status(200).json(favorites)
-  })
-  .catch((error) => {
-    response.status(500).json({error})
-  });
-});
-
-app.get('/api/v1/favorites/:id', (request, response) => {
-  database('favorites').where('id', request.params.id).select()
-    .then(favorites => {
-      if (favorites.length) {
-        response.status(200).json(favorites);
-      } else {
-        response.status(404).json({
-          error: `Could not find favorite with id ${request.params.id}`
-        });
-      }
-    })
-    .catch(error => {
-      response.status(500).json({ error });
-    });
-});
+app.use('/api/v1/favorites', favorites)
 
 app.post('/api/v1/favorites', (request, response) => {
   const favorite = request.body;
