@@ -20,22 +20,6 @@ app.get('/', (request, response) => {
 
 app.use('/api/v1/favorites', favorites)
 
-
-// app.put('/api/v1/favorites/:id', (request, response) => {
-//   database('favorites').where('id', request.params.id).update({
-//     name: request.body.name || null,
-//     artist_name: request.body.artist_name || null,
-//     genre: request.body.genre || null,
-//     rating: request.body.rating || null
-//   })
-//   .then(favorite => {
-//     response.status(200).json({ id: request.params.id })
-//   })
-//   .catch(error => {
-//     response.status(500).json({ error });
-//   });
-// });
-//
 // app.delete('/api/v1/favorites/:id', function (request, response) {
 //   database('favorites').where({ id: request.params.id })
 //   .del()
