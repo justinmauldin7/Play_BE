@@ -20,17 +20,6 @@ app.get('/', (request, response) => {
 
 app.use('/api/v1/favorites', favorites)
 
-// app.delete('/api/v1/favorites/:id', function (request, response) {
-//   database('favorites').where({ id: request.params.id })
-//   .del()
-//   .then(function() {
-//     response.status(204).send();
-//   })
-//   .catch(error => {
-//     response.status(500);
-//   });
-// });
-//
 // app.get('/api/v1/playlists', (request, response) => {
 //   database('playlists').select()
 //   .then((playlists) => {
