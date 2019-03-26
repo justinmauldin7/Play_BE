@@ -7,6 +7,7 @@ const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 const favorites = require('./lib/routes/api/v1/favorites')
+const playlists = require('./lib/routes/api/v1/playlists')
 
 app.use(cors())
 app.use(bodyParser.json());
