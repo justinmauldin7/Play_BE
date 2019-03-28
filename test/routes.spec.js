@@ -210,6 +210,19 @@ describe('API Routes', () => {
         done();
       });
     });
+
+    it('should not post a favorite to a playlists with bad info', done => {
+      chai.request(server)
+      .post('/api/v1/playlists/15/favorites/22')
+      .end((err, response) => {
+        response.should.have.status(500);
+        response.should.be.json;
+
+        response.body.should.have.property('error');
+        response.body.error.detail.should.equal("Key (playlist_id)=(15) is not present in table \"playlists\".");
+        done();
+      });
+    });
   });
 
   describe('delete /api/v1/playlists/:id/favorites/:id', () => {
@@ -226,5 +239,6 @@ describe('API Routes', () => {
       });
     });
   });
+
 
 });
