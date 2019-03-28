@@ -7,7 +7,7 @@ Play is an API that serves and organizes favorite songs and playlists.  It is ho
 <img width="605" alt="Screen Shot 2019-03-19 at 1 11 11 PM" src="https://user-images.githubusercontent.com/42418816/55170309-ee090680-513b-11e9-8a0e-84603d53ad16.png">
 
 
-It responds to the following interactions.
+# It responds to the following interactions.
 
 # Favorites 
 'GET /api/v1/favorites'
