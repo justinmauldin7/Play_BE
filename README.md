@@ -67,12 +67,14 @@ This deletes a favorited song from a playlist
 
 <img width="921" alt="Screen Shot 2019-03-28 at 9 29 39 AM" src="https://user-images.githubusercontent.com/42418816/55170383-0a0ca800-513c-11e9-94a5-a716e3dee0aa.png">
 
-# Created By Daniel Briechle & Justin Mauldin
-
 # Technologies 
 Javascript 
 Kenx
 Express 
 Travis CI
 Webpack
+
+
+# Created By Daniel Briechle & Justin Mauldin
+
 
