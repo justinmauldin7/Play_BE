@@ -154,14 +154,13 @@ describe('API Routes', () => {
       .delete('/api/v1/favorites/4')
       .end((err, response) => {
         response.should.have.status(204);
-        // We need error handling in the DELETE.  Returning 200 in the test,
-        // Returns 204 in Postman.
         done();
       });
     });
   });
 
-  describe('GET /api/v1/playlists', () => {
+
+  describe('GET /api/v1/playlists/', () => {
     it('should return all of the playlists', done => {
       chai.request(server)
       .get('/api/v1/playlists')
@@ -171,16 +170,74 @@ describe('API Routes', () => {
         response.body.should.be.a('array');
         response.body.length.should.equal(3);
 
-        response.body[0].should.have.property('playlist_name');
-        response.body[0].playlist_name.should.equal('Queen of Playlists');
-
         response.body[1].should.have.property('playlist_name');
         response.body[1].playlist_name.should.equal('Best Bands Ever');
+        response.body[1].favorites[0].name.should.equal("Hey Jude")
 
-        response.body[2].should.have.property('playlist_name');
-        response.body[2].playlist_name.should.equal('Journey Home Playlist');
         done();
       });
     });
   });
+
+  describe('GET /api/v1/playlists/:id', () => {
+    it('should return a single playlists by id', done => {
+      chai.request(server)
+      .get('/api/v1/playlists/1')
+      .end((err, response) => {
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('array');
+        response.body.length.should.equal(1);
+
+        response.body[0].should.have.property('playlist_name');
+        response.body[0].playlist_name.should.equal('Queen of Playlists');
+        response.body[0].favorites[0].name.should.equal("Bohemian Rhapsody");
+        done();
+      });
+    });
+  });
+
+  describe('post /api/v1/playlists/:id/favorites/:id', () => {
+    it('should post a favorite to a playlists', done => {
+      chai.request(server)
+      .post('/api/v1/playlists/2/favorites/1')
+      .end((err, response) => {
+        response.should.have.status(200);
+        response.should.be.json;
+
+        response.body.should.have.property('message');
+        response.body.message.should.equal("Successfully added song with id 1 to playlist with id 2");
+        done();
+      });
+    });
+
+    it('should not post a favorite to a playlists with bad info', done => {
+      chai.request(server)
+      .post('/api/v1/playlists/15/favorites/22')
+      .end((err, response) => {
+        response.should.have.status(500);
+        response.should.be.json;
+
+        response.body.should.have.property('error');
+        response.body.error.detail.should.equal("Key (playlist_id)=(15) is not present in table \"playlists\".");
+        done();
+      });
+    });
+  });
+
+  describe('delete /api/v1/playlists/:id/favorites/:id', () => {
+    it('should delete a single song from a playlists', done => {
+      chai.request(server)
+      .delete('/api/v1/playlists/1/favorites/1')
+      .end((err, response) => {
+        response.should.have.status(200);
+        response.should.be.json;
+
+        response.body.should.have.property('message');
+        response.body.message.should.equal("Successfully removed song with id 1 from playlist with id 1");
+        done();
+      });
+    });
+  });
+
 });
