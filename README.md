@@ -24,13 +24,21 @@ This displays a single favorite by :id
 
 'PUT /api/v1/favorites/:id'
 
-This updates a favorite.
+This updates a favorite, and returns the id associated with the favorite.
 
 <img width="942" alt="Screen Shot 2019-03-28 at 9 31 06 AM" src="https://user-images.githubusercontent.com/42418816/55170479-40e2be00-513c-11e9-9040-be1a13cde27e.png">
 
+'POST /api/v1/favorites'
+This adds a favorite to the database and returns its newly create id.
+
+<img width="968" alt="Screen Shot 2019-03-28 at 9 36 18 AM" src="https://user-images.githubusercontent.com/42418816/55170898-ff9ede00-513c-11e9-98e1-a73698059395.png">
+
 'DELETE /api/v1/favorites/:id'
 
-This deletes a favorite 
+This deletes a favorite and returns a 204 no content.
+
+<img width="949" alt="Screen Shot 2019-03-28 at 9 38 56 AM" src="https://user-images.githubusercontent.com/42418816/55171069-5a383a00-513d-11e9-9683-2994a48cf0f8.png">
+
 
 # Playlists 
 
@@ -59,4 +67,12 @@ This deletes a favorited song from a playlist
 
 <img width="921" alt="Screen Shot 2019-03-28 at 9 29 39 AM" src="https://user-images.githubusercontent.com/42418816/55170383-0a0ca800-513c-11e9-94a5-a716e3dee0aa.png">
 
+# Created By Daniel Briechle & Justin Mauldin
+
+# Technologies 
+Javascript 
+Kenx
+Express 
+Travis CI
+Webpack
 
